@@ -1,0 +1,75 @@
+import random
+loadfile1 = open('newIduser-traj-geolife-nolastcom.txt', 'r')
+loadfile2 = open('gps-poi.txt', 'r')
+
+savefile1 = open('traj-Geo.csv', 'w')
+savefile2 = open('poi-Geo.csv', 'w')
+
+savefile1.write('userID,trajID,poiID,startTime,endTime,#photo,trajLen,poiDuration'+'\n')
+savefile2.write('poiID,poiCat,poiLon,poiLat'+'\n')
+
+trajId = 1
+startTime = 1
+lenthlist =[]
+
+# for line in loadfile1:
+#     item = line.strip().split(',')
+#
+#     last = 0
+#     lenth = 0
+#     for i in item[1:]:
+#         now = i
+#
+#         if now != last:
+#             lenth += 1
+#
+#         last = i
+#     lenthlist.append(lenth)
+# loadfile1.close()
+# loadfile1 = open('newIduser-traj-geolife-nolastcom.txt', 'r')
+# for line in loadfile1:
+#     item = line.strip().split(',')
+#     userId = int(item[0])+1
+#     trajLen = lenthlist[trajId-1]
+#     last = 0
+#     for i in item[1:]:
+#         now = i
+#         r = random.randint(1, 20)
+#         endTime = startTime + r
+#         if now != last:
+#             savefile1.write(str(userId)+','+str(trajId)+','+i+','+str(startTime)+','+str(endTime) +','+'0'+','+str(trajLen)+','+str(r)+'\n')
+#         startTime = endTime
+#         last = i
+#     trajId += 1
+
+
+for line in loadfile1:
+    item = line.strip().split(',')
+    userId = int(item[0])+1
+    trajLen = len(item)
+    if userId%10 == 1:
+        if trajId%10 == 1:
+            for i in item[1:]:
+                r = random.randint(1, 20)
+                endTime = startTime + r
+
+                savefile1.write(str(userId)+','+str(trajId)+','+i+','+str(startTime)+','+str(endTime)+','+'0'+','+str(trajLen)+','+str(r)+'\n')
+                startTime = endTime
+
+    trajId += 1
+
+for line in loadfile2:
+    item = line.strip().split(',')
+    poiId = item[2]
+    longitude = item[1]
+    latitude = item[0]
+    savefile2.write(poiId+','+'UNK'+','+longitude+','+latitude+'\n')
+
+loadfile1.close()
+loadfile2.close()
+savefile1.close()
+savefile2.close()
+
+
+
+
